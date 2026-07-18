@@ -44,10 +44,22 @@ After the initial fill, the AI **autonomously decides** whether to update the pr
 
 ## Usage Tracking (opencode_usage.txt)
 
+Records every project that has used Opencode with this skill, along with the last active date.
+
+### Configurable storage path
+
+The tracking file location can be customized via `.session-memory-config`:
+
+1. Look for `.session-memory-config` in the **skill directory** (same folder as SKILL.md)
+2. **If found**: read `usage_tracking_path = <path>` from it
+3. **If not found**: default to `{skill_dir}/opencode_usage.txt`
+
+### Update logic (runs each session start)
+
 At the start of each session, **before responding to the user**:
 
-1. Look for a file named `opencode_usage.txt` in the `D:\Opencode记忆管理` directory
-2. **If it doesn't exist**: create it with the current project's entry
+1. Determine the tracking file path using the config method above
+2. **If the file doesn't exist**: create it with the current project's entry
 3. **If it exists**: check whether the current project's root path is already recorded
    - **If already present**: update its date to today (YYYY-MM-DD)
    - **If not present**: append a new line
@@ -59,8 +71,7 @@ Record format (one entry per line):
 
 Example:
 ```
-D:\Opencode记忆管理 | 2026-07-17
-D:\SomeOtherProject | 2026-07-15
+D:\MyProject | 2026-07-18
 ```
 
 ## Real-Time Auto-Update
