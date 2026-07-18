@@ -27,21 +27,20 @@ This skill **must be loaded first** in ANY project. After loading:
 <!-- AI auto-fills after first conversation -->
 
 ## 已完成的工作
-<!-- AI updates at session end -->
+<!-- AI updates in real-time when substantial progress is detected -->
 
 ## 待办/待讨论
-<!-- AI updates at session end -->
+<!-- AI updates in real-time when substantial progress is detected -->
 ```
 
 ## Auto Project Summary
 
-After the first meaningful work session in a project:
+When the AI detects substantial progress in a new project (first meaningful work session):
 
 1. Deduce the project's main purpose, tech stack, and goals from the conversation and codebase
 2. Fill the **项目概况** section in `_session_context.md` with a concise summary
-3. Update this summary whenever the project's scope or direction significantly changes
 
-This ensures the AI maintains directional awareness and doesn't drift off-topic in future sessions.
+After the initial fill, the AI **autonomously decides** whether to update the project summary — based on whether the project's scope, direction, or tech stack has significantly shifted. No fixed schedule, no redundant updates.
 
 ## Usage Tracking (opencode_usage.txt)
 
@@ -64,14 +63,34 @@ D:\Opencode记忆管理 | 2026-07-17
 D:\SomeOtherProject | 2026-07-15
 ```
 
-## Session-End Auto-Update
+## Real-Time Auto-Update
 
-At the end of every session (before the conversation ends or when the user signals a session boundary):
+Do NOT wait for "session end" — the AI cannot reliably detect when a conversation ends. Instead, update `_session_context.md` **in real time during the conversation** whenever substantial progress is detected.
 
-- Update **已完成的工作** with significant progress made
-- Update **待办/待讨论** with any pending items or decisions
+### What counts as "substantial progress"
+
+Any of the following triggers an update:
+
+| Trigger | Example |
+|---------|---------|
+| A feature/task is completed | "Implemented user login" |
+| A design decision is made | "Chose PostgreSQL over MySQL for X reason" |
+| Project scope or direction changes | "Pivoted from CLI tool to web service" |
+| A significant bug is fixed | "Root-caused and fixed the memory leak" |
+| New actionable items emerge | "Need to add tests for module Y" |
+
+### How to update
+
+Use the **edit tool** to modify `_session_context.md` directly:
+
+- **已完成的工作**: Append a new bullet point with a concise description of what was done and the date
+- **待办/待讨论**: Replace the entire section with the current list of pending items (remove completed ones, add new ones)
+- **项目概况**: Only update if the project's direction or scope has significantly changed (AI judges)
 - Keep entries concise and structured — no raw chat logs
-- If nothing notable happened, skip the update
+
+### When to skip
+
+If nothing notable happened (e.g., just asking questions, minor tweaks, research with no conclusion), suppress the update entirely.
 
 ## Rules
 
