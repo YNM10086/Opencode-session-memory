@@ -37,11 +37,23 @@ Session Memory 是一个 Opencode Skill，让 AI 在跨会话间**自动记住�
 
 ## 安装
 
-1. 将 `session-memory` 文件夹放入 Opencode skills 目录（`~/.claude/skills/` 或对应配置路径）
-2. 在 `opencode.json` 中引用该 skill
-3. 之后进入任意项目，skill 会自动触发
+### 1. 放置 skill 文件
 
-更多详情见 [SKILL.md](./SKILL.md)。
+将 `session-memory` 文件夹放入 Opencode skills 目录（`~/.claude/skills/` 或对应配置路径），并在 `opencode.json` 中引用。
+
+### 2. 配置自动加载（推荐）
+
+将本仓库的 [`AGENTS.md`](./AGENTS.md) 复制到 `~/.config/opencode/AGENTS.md`（Windows 下为 `C:\Users\<用户名>\.config\opencode\AGENTS.md`）。  
+这样每次对话开始时 AI **自动加载** session-memory skill，无需手动操作。
+
+AGENTS.md 内容说明：
+```
+在每次对话的最开始，必须先加载 session-memory skill。
+操作方式：使用 skill 工具，name 参数为 session-memory。
+加载后，按顺序：检查 _session_context.md → 不存在则自动创建 → 更新使用记录
+```
+
+> AGENTS.md 是 opencode 的全局指令，优先级高于项目级配置，适合放"每次对话都必须做的事"。
 
 ## 配置项
 
