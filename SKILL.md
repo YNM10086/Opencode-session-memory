@@ -16,6 +16,7 @@ This skill **must be loaded first** in ANY project. After loading:
 1. **Check** if `_session_context.md` exists at the project root
 2. **If it EXISTS**: read the full file, then respond with a short confirmation that context has been restored. **Do NOT ask any questions.**
 3. **If it does NOT exist**: auto-create `_session_context.md` using the current working directory's folder name as the project name. **Do NOT ask for the name. Do NOT ask questions.**
+4. **ALWAYS** — regardless of whether `_session_context.md` existed or was just created — **update the usage tracking file**. Follow the "Usage Tracking" section below to determine the file path and update it. This step is **non-optional** and runs every session start.
 
 ## Template (used when auto-creating)
 
@@ -42,9 +43,9 @@ When the AI detects substantial progress in a new project (first meaningful work
 
 After the initial fill, the AI **autonomously decides** whether to update the project summary — based on whether the project's scope, direction, or tech stack has significantly shifted. No fixed schedule, no redundant updates.
 
-## Usage Tracking (opencode_usage.txt)
+## Usage Tracking
 
-Records every project that has used Opencode with this skill, along with the last active date.
+Records every project that has used Opencode with this skill, along with the last active date, in Markdown format.
 
 ### Configurable storage path
 
@@ -52,27 +53,55 @@ The tracking file location can be customized via `.session-memory-config`:
 
 1. Look for `.session-memory-config` in the **skill directory** (same folder as SKILL.md)
 2. **If found**: read `usage_tracking_path = <path>` from it
-3. **If not found**: default to `{skill_dir}/opencode_usage.txt`
+3. **If not found**: default to `{skill_dir}/opencode_usage.md`
 
 ### Update logic (runs each session start)
 
 At the start of each session, **before responding to the user**:
 
 1. Determine the tracking file path using the config method above
-2. **If the file doesn't exist**: create it with the current project's entry
-3. **If it exists**: check whether the current project's root path is already recorded
-   - **If already present**: update its date to today (YYYY-MM-DD)
-   - **If not present**: append a new line
+2. **If the file doesn't exist**: create it with the Markdown table header
+3. **If it exists** or after creating the header: **append** a new row with the current project's root path and today's date
 
-Record format (one entry per line):
-```
-<project_root_path> | YYYY-MM-DD
+**Crucially: never modify, delete, or update any existing row.** This is an append-only log.
+
+### Example — chronological activity log
+
+After multiple sessions working across projects, the file grows like this:
+
+```markdown
+# Opencode 使用记录
+
+| 项目路径 | 日期 |
+|----------|------|
+| D:\ProjectA | 2026-07-01 |
+| D:\ProjectB | 2026-07-02 |
+| D:\ProjectA | 2026-07-05 |
+| D:\ProjectC | 2026-07-06 |
+| D:\ProjectB | 2026-07-07 |
 ```
 
-Example:
+Each row is a distinct session — the same project can (and will) appear multiple times with different dates.
+
+### Record format
+
+Markdown table with pipe-separated columns:
+
+```markdown
+# Opencode 使用记录
+
+| 项目路径 | 最后活动日期 |
+|----------|------------|
+| D:\MyProject | 2026-07-18 |
 ```
-D:\MyProject | 2026-07-18
-```
+
+### Migration from old .txt format
+
+If `opencode_usage.txt` exists but `opencode_usage.md` does not:
+- Read the `.txt` file
+- Migrate its content to the new Markdown table format
+- Write to `.md` path
+- Delete or ignore the old `.txt` file
 
 ## Real-Time Auto-Update
 

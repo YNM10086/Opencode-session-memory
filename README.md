@@ -60,10 +60,10 @@ AGENTS.md 内容说明：
 在 skill 目录下创建 `.session-memory-config` 文件可自定义行为，**只需设置一次，不增加日常 token 消耗**：
 
 ```
-usage_tracking_path = D:\自定义路径\opencode_usage.txt
+usage_tracking_path = D:\自定义路径\opencode_usage.md
 ```
 
-未配置时默认将 `opencode_usage.txt` 存放在 skill 目录下。
+未配置时默认将 `opencode_usage.md` 存放在 skill 目录下。
 
 ## 自定义扩展
 
