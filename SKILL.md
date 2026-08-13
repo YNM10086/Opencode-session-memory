@@ -141,9 +141,14 @@ Any of the following triggers a pitfalls entry:
 | Trigger | Example |
 |---------|---------|
 | Repeated errors / multiple debugging attempts | Same error retried 2+ times |
+| Same problem rejected by the user 3 times in a row | User keeps saying "还是没有" / "还是不行" / "换了个方式还是一样" — record even if root cause is unknown |
 | Unconventional fix | Standard solutions failed, a non-obvious fix worked |
 | Significant bug fixed | Long root-cause effort finally resolved |
 | User manual marker | User says "记住这个坑" / "记一下" |
+
+### Incomplete entry rule
+
+When a 3-time-rejected problem is recorded before it is solved, save an **incomplete entry**: symptom, the list of attempted-but-ineffective solutions, and a "待解决" (pending) marker — root cause may be unknown at this point. Once the problem is eventually solved, **update the same entry** to fill in the root cause and final fix; never create a second duplicate entry.
 
 ### Deduplication
 
@@ -156,7 +161,7 @@ File each entry under the matching technology/topic subsection in `## 踩坑记�
 ### When NOT to record
 
 - Casual Q&A, research without conclusion
-- Pitfall without a root cause (symptom only, unsolved)
+- Pitfall without a root cause (symptom only, unsolved) — **unless** the same problem was rejected by the user 3+ times in a row (see "Incomplete entry rule" above)
 
 ## Workflow Record
 
